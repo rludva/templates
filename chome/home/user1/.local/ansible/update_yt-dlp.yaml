@@ -1,3 +1,8 @@
+#
+# yt-dlp is a tool for downloading videos from YouTube and a few more sites.
+# 
+# Source code of the omc tool: https://github.com/yt-dlp/yt-dlp.git
+#
 
 ---
 - name: "Update binary files from github.com releases yt-dlp.."
@@ -6,17 +11,22 @@
   become: true
   gather_facts: false
   vars:
+    # All the artifacts are downloaded to this directory..
+    # Feel free to change it to /tmp for example..
+    download_dir: "/var/downloads"
+
+    # The destination directory for the binary file..
+    destination_file_name: "yt-dlp"
+    destination_directory: "/usr/local/bin"
+
+    # The GitHub repository specific variables..
     repository_owner: "yt-dlp"
     project_name: "yt-dlp"
     release_file_name: "yt-dlp"
-    destination_file_name: "yt-dlp"
-    destination_directory: "/usr/local/bin"
-    download_dir: "/tmp"
-  tasks:
-    - name: Set variables to artefacts..
-      set_fact:
-        github_repo_url: "https://github.com/{{ repository_owner  }}/{{ project_name }}"
+    github_repo_url: "https://github.com/{{ repository_owner  }}/{{ project_name }}"
 
+
+  tasks:
     - name: Get GitHub Releases
       uri:
         url: "https://api.github.com/repos/{{ repository_owner  }}/{{ project_name }}/releases/latest"
