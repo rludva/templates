@@ -5,7 +5,7 @@
 #
 
 ---
-- name: "Update binary files from github.com releases OpenShift Local (crc).."
+- name: "Update binary file from github.com releases of OpenShift Local (crc).."
   hosts:
     - localhost
   become: true
@@ -34,7 +34,7 @@
 
 
   tasks:
-    - name: Ensure the target directory for downloaded files exists..
+    - name: Ensure the target directory for downloaded files exists ({{ download_dir }})..
       file:
         path: "{{ download_dir }}"
         state: directory

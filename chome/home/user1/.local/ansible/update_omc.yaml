@@ -1,11 +1,12 @@
 #
+# This Ansible playbook downloads the latest release of the omc tool from GitHub and installs it to the local filesystem.
 # omc is a tool for off-line analyzing of OpenShift must-gather files.
 # 
 # Source code of the omc tool: https://github.com/gmeghnag/omc.git
 #
 
 ---
-- name: "Update binary files from github.com releases omc.."
+- name: "Update binary file from github.com releases of omc tool.."
   hosts:
     - localhost
   become: true
@@ -27,6 +28,11 @@
 
 
   tasks:
+    - name: Ensure the target directory for downloaded files exists ({{ download_dir }})..
+      file:
+        path: "{{ download_dir }}"
+        state: directory
+
     - name: Get GitHub Releases
       uri:
         url: "https://api.github.com/repos/{{ repository_owner  }}/{{ project_name }}/releases/latest"

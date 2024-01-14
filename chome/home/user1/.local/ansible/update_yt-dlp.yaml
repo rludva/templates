@@ -5,7 +5,7 @@
 #
 
 ---
-- name: "Update binary files from github.com releases yt-dlp.."
+- name: "Update binary file from github.com releases of the yt-dlp tool.."
   hosts:
     - localhost
   become: true
@@ -27,6 +27,11 @@
 
 
   tasks:
+    - name: Ensure the target directory for downloaded files exists ({{ download_dir }})..
+      file:
+        path: "{{ download_dir }}"
+        state: directory
+
     - name: Get GitHub Releases
       uri:
         url: "https://api.github.com/repos/{{ repository_owner  }}/{{ project_name }}/releases/latest"
@@ -50,7 +55,7 @@
 
     - name: Display downloaded version
       debug:
-        msg: "{{ release_file_name }}} version {{ latest_tag }} downloaded to {{ download_dir }}/{{ release_file_name }}"
+        msg: "{{ release_file_name }} version {{ latest_tag }} downloaded to {{ download_dir }}/{{ release_file_name }}"
 
     - name: Move latest release of {{ destination_file_name }} to its destination on local filesystem.. ({{ destination_directory }}/{{ destination_file_name }})
       ansible.builtin.copy:
