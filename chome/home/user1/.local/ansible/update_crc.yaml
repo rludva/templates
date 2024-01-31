@@ -16,7 +16,7 @@
     download_dir: "/var/downloads"
 
     # The destination directory for the binary file..
-    destination_directory: "/usr/local/bin"
+    destination_directory: "/opt/cli-tools"
     destination_file_name: "crc"
 
     # The GitHub repository specific variables..
@@ -37,6 +37,11 @@
     - name: Ensure the target directory for downloaded files exists ({{ download_dir }})..
       file:
         path: "{{ download_dir }}"
+        state: directory
+
+    - name: Ensure that the destination directory for the binary file exists ({{ destination_directory }})..
+      file:
+        path: "{{ destination_directory }}"
         state: directory
 
     - name: Get GitHub Releases..

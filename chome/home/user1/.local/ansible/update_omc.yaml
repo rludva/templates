@@ -17,8 +17,8 @@
     download_dir: "/var/downloads"
 
     # The destination directory for the binary file..
+    destination_directory: "/opt/cli-tools"
     destination_file_name: "omc"
-    destination_directory: "/usr/local/bin"
 
     # The GitHub repository specific variables..
     repository_owner: "gmeghnag"
@@ -28,6 +28,11 @@
 
 
   tasks:
+    - name: Ensure the target directory for downloaded files exists ({{ download_dir }})..
+      file:
+        path: "{{ download_dir }}"
+        state: directory
+
     - name: Ensure the target directory for downloaded files exists ({{ download_dir }})..
       file:
         path: "{{ download_dir }}"
