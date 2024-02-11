@@ -1,11 +1,12 @@
 #
-# yt-dlp is a tool for downloading videos from YouTube and a few more sites.
+# This Ansible playbook downloads the latest release of the odo tool from GitHub and installs it to the local filesystem.
+# odo - container-based application development
 # 
-# Source code of the omc tool: https://github.com/yt-dlp/yt-dlp.git
+# Source code of the odo tool: https://github.com/redhat-developer/odo.git
 #
 
 ---
-- name: "Update binary file from github.com releases of the yt-dlp tool.."
+- name: "Update binary file from github.com releases of odo tool.."
   hosts:
     - localhost
   become: true
@@ -17,12 +18,12 @@
 
     # The destination directory for the binary file..
     destination_directory: "/opt/cli-tools"
-    destination_file_name: "yt-dlp"
+    destination_file_name: "odo"
 
     # The GitHub repository specific variables..
-    repository_owner: "yt-dlp"
-    project_name: "yt-dlp"
-    release_file_name: "yt-dlp"
+    repository_owner: "redhat-developer"
+    project_name: "odo"
+    release_file_name: "odo"
     github_repo_url: "https://github.com/{{ repository_owner  }}/{{ project_name }}"
 
 
@@ -55,12 +56,12 @@
   
     - name: Download {{ project_name }}
       get_url:
-        url: "{{ github_repo_url }}/releases/download/{{ latest_tag }}/{{ release_file_name }}"
+        url: "https://developers.redhat.com/content-gateway/rest/mirror/pub/openshift-v4/clients/odo/{{ latest_tag }}/odo-linux-amd64"        
         dest: "{{ download_dir }}/{{ release_file_name }}"
 
         # Looks like it is working on Fedora without this option but if the destination file already exists, it will not be overwritten..
-        force: yes
-        
+        force: yes        
+
     - name: Display downloaded version
       debug:
         msg: "{{ release_file_name }} version {{ latest_tag }} downloaded to {{ download_dir }}/{{ release_file_name }}"

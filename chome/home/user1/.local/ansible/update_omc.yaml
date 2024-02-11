@@ -59,6 +59,9 @@
         url: "{{ github_repo_url }}/releases/download/{{ latest_tag }}/{{ release_file_name }}"
         dest: "{{ download_dir }}/{{ release_file_name }}"
 
+        # Looks like it is working on Fedora without this option but if the destination file already exists, it will not be overwritten..
+        force: yes        
+
     - name: Display downloaded version
       debug:
         msg: "{{ release_file_name }} version {{ latest_tag }} downloaded to {{ download_dir }}/{{ release_file_name }}"
